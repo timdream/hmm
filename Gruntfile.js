@@ -34,7 +34,10 @@ module.exports = function(grunt) {
                 src: ["<%= src %>"]
             },
             test: {
-                src: ["test/*.js"]
+                options: {
+                    jshintrc: "test/.jshintrc"
+                },
+                src: ["test/**/*.js"]
             }
         },
 
@@ -55,7 +58,7 @@ module.exports = function(grunt) {
 
 
         mochacli: {
-            all: {}
+            all: ["test/**/*.js"]
         }
     });
 
