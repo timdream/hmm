@@ -3,7 +3,7 @@
 var assert = require('chai').assert;
 var HiddenMarkovModel = require('../../lib/hmm');
 
-suite('4.1 Solution to Problem 1', function() {
+suite('Chapter 4.1 Solution to Problem 1', function() {
   var a, b, pi, observations;
   var expectedP;
 
@@ -25,21 +25,13 @@ suite('4.1 Solution to Problem 1', function() {
     // This is the direct calculation above (8) on page 6 --
     // we will use this to verify our answer in (8) is correct.
     expectedP = 0;
+    var hmm = new HiddenMarkovModel(a, b, pi);
     var numberOfPossibleStateSequences = 1 << 4;
     for (var i = 0; i < numberOfPossibleStateSequences; i++) {
-      var state = [
-        (i & 0x8) >> 3,
-        (i & 0x4) >> 2,
-        (i & 0x2) >> 1,
-        i & 0x1
-      ];
+      var state = [(i & 0x8) >> 3, (i & 0x4) >> 2, (i & 0x2) >> 1, i & 0x1];
 
-      var p = pi[0][state[0]] * b[state[0]][observations[0]];
-      for (var t = 1; t < 4; t++) {
-        p *= a[state[t - 1]][state[t]] * b[state[t]][observations[t]];
-      }
-
-      expectedP += p;
+      expectedP +=
+        hmm.getProbabilityOfStateSequenceForObservations(state, observations);
     }
   });
 
